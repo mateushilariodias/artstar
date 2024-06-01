@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <title>TMDb Collection Finder</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+</head>
+
+<body>
+    <div id="app" v-cloak>
+        <input v-model="searchText" @keyup.enter="searchCollection" placeholder="Pesquisar coleção">
+        <button @click="searchCollection">Buscar</button>
+
+        <ul class="collection-list">
+            <li v-for="collection in collections" :key="collection.id" @click="fetchCollectionDetails(collection.id)">
+                <img :src="collection.poster_path ? 'https://image.tmdb.org/t/p/w200' + collection.poster_path : 'https://via.placeholder.com/200x300?text=No+Image'"
+                    :alt="collection.name" class="collection-poster">
+                <span class="collection-name">{{ collection.name }}</span>
+            </li>
+        </ul>
+
+        <div v-if="selectedCollection" class="collection-details">
+            <h2>{{ selectedCollection.name }}</h2>
+            <img :src="selectedCollection.poster_path ? 'https://image.tmdb.org/t/p/w300' + selectedCollection.poster_path : 'https://via.placeholder.com/300x450?text=No+Image'"
+                :alt="selectedCollection.name" class="collection-poster-large">
+            <p>{{ selectedCollection.overview }}</p>
+            <h3>Filmes na coleção:</h3>
+            <ul>
+                <li v-for="movie in selectedCollection.parts" :key="movie.id">{{ movie.title }}</li>
+            </ul>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
